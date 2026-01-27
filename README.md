@@ -4,6 +4,7 @@ Perfect — since your video was created or exported from Clipchamp, here’s ho
 1. Export the video from Clipchamp
 - Click Export in Clipchamp and choose 1080p MP4 for best quality.
 - Save the file locally (e.g., Unapologetically_Trailer.mp4).
+- C:\Users\corne\Downloads\Unapologetically_Trailer
 2. Upload to GitHub
 You can host the video in your repo for distribution or version control:
 - Go to your GitHub repo (e.g., VideoEditingAssets)
