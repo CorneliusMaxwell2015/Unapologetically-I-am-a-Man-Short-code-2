@@ -92,7 +92,8 @@ jobs:
           refresh_token: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           video_file: 'assets/videos/Unapologetically_Trailer.mp4'
           title: 'Unapologetically: I Am a Man – Official Trailer'
-          description: |## 🤖 Step 3: GitHub Action (Auto-Publish)
+          description: |---
+## 🤖 Step 3: GitHub Action (Auto-Publish)
 
 Create `.github/workflows/`[`youtube-upload.yml`](https://youtube-upload.yml) with the following content:
 
@@ -287,5 +288,16 @@ If you encounter errors when uploading your video, consider the following common
    - To isolate issues, try uploading the original exported video file directly to YouTube Studio without going through GitHub.
 
 If problems persist, review GitHub Actions logs for errors or check YouTube's upload error messages for more details.
+
+---
+
+## ⏳ When to Upload and Add Code
+
+You should upload your video file to GitHub first and commit and push those changes. This push triggers the GitHub Action workflow that automatically uploads the video to YouTube.
+
+- Add or update the GitHub Action YAML (`youtube-upload.yml`) and Git LFS configuration (`.gitattributes`) before your first push that includes the video file.
+- Add or update your README or markdown files with the YouTube embed code only after the video is successfully uploaded to YouTube and you have the video ID.
+
+If you encounter upload errors or need to fix Git LFS setup, fix those locally and then push again to GitHub to retry the automated upload.
 
 ---
