@@ -298,5 +298,6 @@ Settings → Secrets → Actions → New repository secret
 - YOUTUBE_CLIENT_SECRET
 - YOUTUBE_REFRESH_TOKEN
 
+<img width="948" height="2800" alt="image" src="https://github.com/user-attachments/assets/92f67b9a-541f-4b08-9d27-f07bc117797f" />
 
 
