@@ -1,0 +1,27 @@
+name: Upload Video to YouTube
+
+on:
+  push:
+    paths:
+      - 'assets/videos/Unapologetically_Trailer.mp4'
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Upload to YouTube
+        uses: ibrahimguner/youtube-upload-action@v1.2
+        with:
+          client_id: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          client_secret: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          refresh_token: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          video_file: 'assets/videos/Unapologetically_Trailer.mp4'
+          title: 'Unapologetically: I Am a Man – Official Trailer'
+          description: |
+            Poetry movement trailer. GitHub-powered.
+            Learn more: https://github.com/CorneliusMaxwell2015/Unapologetically-I-am-a-Man-Short-code-2
+          tags: 'poetry, empowerment, Black history, trailer'
+          privacy_status: 'public'
