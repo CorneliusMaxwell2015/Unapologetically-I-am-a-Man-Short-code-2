@@ -298,5 +298,6 @@ Settings → Secrets → Actions → New repository secret
 - YOUTUBE_CLIENT_SECRET
 - YOUTUBE_REFRESH_TOKEN
 
+trigger upload
 
 
