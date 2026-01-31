@@ -34,3 +34,5 @@ Since you're architecting a GitHub-powered video editing platform, you could:
 - Offer clients a Clipchamp-to-YouTube pipeline with GitHub as the versioned archive
 - Use GitHub Actions to auto-tag releases when new videos are added
 Want help writing the YouTube description or generating a thumbnail from the video? I’ve got you.
+
+"C:\Users\corne\OneDrive\Desktop\Unapologetic_Trailer\Unapologetically_Trailer.mp4"
