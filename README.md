@@ -293,3 +293,10 @@ This workflow is part of the Cornelius Maxwell creative ecosystem. Built for sca
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/7a75f91c-8bff-4d16-8361-fb9874048fff" />
 
+Settings → Secrets → Actions → New repository secret
+- YOUTUBE_CLIENT_ID
+- YOUTUBE_CLIENT_SECRET
+- YOUTUBE_REFRESH_TOKEN
+
+
+
