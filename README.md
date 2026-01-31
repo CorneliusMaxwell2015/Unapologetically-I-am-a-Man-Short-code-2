@@ -290,3 +290,6 @@ Replace `YOUR_VIDEO_ID` with the actual ID from YouTube.
 This workflow is part of the Cornelius Maxwell creative ecosystem. Built for scalable video editing, poetic storytelling, and GitHub-powered distribution.
 
 © 2026 Cornelius Maxwell. All rights reserved.
+
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/7a75f91c-8bff-4d16-8361-fb9874048fff" />
+
