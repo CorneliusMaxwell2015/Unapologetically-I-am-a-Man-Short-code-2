@@ -1,303 +1,48 @@
-🎬 Automated Workflow: Clipchamp → GitHub → YouTube
+assets/videos/*.mp4 filter=lfs diff=lfs merge=lfs -text
 
-This README outlines a fully automated pipeline for exporting videos from Clipchamp, uploading them to GitHub for version control and distribution, and publishing them to YouTube with metadata and discoverability enhancements.
+# Track video files with Git LFS
+*.mp4 filter=lfs diff=lfs merge=lfs -text
 
-✅ Quick Checklist for Uploading Your Clipchamp Video to YouTube
-
-Export your video from Clipchamp as Unapologetically_Trailer.mp4.
-
-Upload the video file to your GitHub repo under /assets/videos/.
-
-Commit and push your changes to GitHub.
-
-The GitHub Action workflow will automatically upload the video to YouTube using your stored API credentials.
-
-After upload, embed the YouTube video link or player in your README using the provided markdown or HTML snippets.
-
-⚙️ Workflow Overview
-
-Export from Clipchamp
-
-Upload to GitHub
-
-Trigger GitHub Action
-
-Auto-publish to YouTube
-
-Embed YouTube link in README
-
-⚙️ Workflow Overview
-
-Export from Clipchamp
-
-Upload to GitHub
-
-Trigger GitHub Action
-
-Auto-publish to YouTube
-
-Embed YouTube link in README
-
-📤 Step 1: Export from Clipchamp
-
-To export your video from Clipchamp, follow these steps:
-
-Open your project in Clipchamp.
-
-Click the Export button, usually located at the top right of the editor.
-
-Select 1080p resolution for the best quality.
-
-Choose MP4 as the export format.
-
-Click Export to start the process.
-
-Once the export is complete, save the video file locally on your computer.
-
-Rename the file to Unapologetically_Trailer.mp4 to match the workflow.
-
-This exported file will be used in the next steps to upload to GitHub and automate publishing to YouTube.
-
-📁 Step 2: Upload to GitHub
-
-Navigate to your GitHub repo (e.g., VideoEditingAssets).
-
-Upload the video to /assets/videos/.
-
-Commit with a message like Add trailer video from Clipchamp.
-
-🤖 Step 3: GitHub Action (Auto-Publish)
-
-Create .github/workflows/youtube-upload.yml with the following content:
+# Optional: track other large media types
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
 
 name: Upload Video to YouTube
 
 on:
   push:
-    paths:
-      - 'assets/videos/Unapologetically_Trailer.mp4'
+    branches:
+      - main
 
 jobs:
   upload:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Upload to YouTube
-        uses: ibrahimguner/youtube-upload-action@v1.2
         with:
-          client_id: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          client_secret: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          refresh_token: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          video_file: 'assets/videos/Unapologetically_Trailer.mp4'
-          title: 'Unapologetically: I Am a Man – Official Trailer'
-          description: |---
-## 🤖 Step 3: GitHub Action (Auto-Publish)
+          lfs: true
 
-Create `.github/workflows/`[`youtube-upload.yml`](https://youtube-upload.yml) with the following content:
+      - name: Install Git LFS
+        run: |
+          git lfs install
+          git lfs pull
 
-```yaml
-name: Upload Video to YouTube
-
-on:
-  push:
-    paths:
-      - 'assets/videos/Unapologetically_Trailer.mp4'
-
-jobs:
-  upload:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Upload to YouTube
-        uses: ibrahimguner/youtube-upload-action@v1.2
+      - name: Upload video to YouTube
+        uses: ai-actions/youtube-upload@v1
         with:
-          client_id: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          client_secret: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          refresh_token: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          video_file: 'assets/videos/Unapologetically_Trailer.mp4'
-          title: 'Unapologetically: I Am a Man – Official Trailer'
-          description: |---
-## 🤖 Step 3: GitHub Action (Auto-Publish)
-
-Create `.github/workflows/`[`youtube-upload.yml`](https://youtube-upload.yml) with the following content:
-
-```yaml
-name: Upload Video to YouTube
-
-on:
-  push:
-    paths:
-      - 'assets/videos/Unapologetically_Trailer.mp4'
-
-jobs:
-  upload:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Upload to YouTube
-        uses: ibrahimguner/youtube-upload-action@v1.2
-        with:
-          client_id: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          client_secret: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          refresh_token: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          video_file: 'assets/videos/Unapologetically_Trailer.mp4'
-          title: 'Unapologetically: I Am a Man – Official Trailer'
+          file: assets/videos/Unapologetically_Trailer.mp4
+          title: "Unapologetically I Am a Man — Official Trailer"
           description: |
-            Poetry movement trailer. GitHub-powered.
-            Learn more: https://github.com/your-username/VideoEditingAssets
-          tags: 'poetry, empowerment, Black history, trailer'
-          privacy_status: 'public'
-```
+            A cinematic movement. A declaration of identity.
+            A message for generations.
+          categoryId: 22
+          privacyStatus: public
+        env:
+          CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
 
----
-
-## 🔐 Step 3a: Set Up YouTube API Credentials and GitHub Secrets
-
-To enable the GitHub Action to upload videos to YouTube, you need to create YouTube API credentials and store them securely in GitHub Secrets:
-
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2. Create a new project or select an existing one.
-3. Enable the YouTube Data API v3 for your project.
-4. Create OAuth 2.0 Client ID credentials.
-5. Generate a refresh token using the OAuth 2.0 Playground or a similar tool.
-6. In your GitHub repo, go to **Settings > Secrets and variables > Actions**.
-7. Add the following secrets:
-   * `YOUTUBE_CLIENT_ID`
-   * `YOUTUBE_CLIENT_SECRET`
-   * `YOUTUBE_REFRESH_TOKEN`
-
-These secrets will be used by the GitHub Action to authenticate and upload your video.
-
----
-
-## 🔗 Step 4: Embed YouTube Link in README
-
-Once your video is uploaded to YouTube, embed it in your README or any markdown file on your page using this snippet:
-
-```markdown
-## 📺 Watch the Trailer
-
-[![Watch on YouTube](https://img.shields.io/badge/Watch-Trailer-red?logo=youtube)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
-```
-
-Replace `YOUR_VIDEO_ID` with the actual video ID from your YouTube URL. For example, if your video URL is `https://www.youtube.com/watch?v=abc123XYZ`, then `YOUR_VIDEO_ID` is `abc123XYZ`.
-
-This will display a clickable badge linking directly to your YouTube video, making it easy for visitors to watch the trailer right from your GitHub page.
-
----
-
-If you want to embed the video player directly in markdown (supported in some markdown renderers), you can use this HTML snippet:
-
-```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen></iframe>
-```
-
-Replace `YOUR_VIDEO_ID` similarly.
-
----
-
-This embedding approach helps showcase your video prominently and drives engagement from your GitHub audience.
-
-Would you like me to add examples of both badge and embedded player usage to your page?
-
-Replace `YOUR_VIDEO_ID` with the actual ID from YouTube.
-
----
-
-## 🧠 Pro Tips
-
-* Use GitHub Secrets to store YouTube API credentials securely.
-* Add thumbnails and captions via YouTube Studio.
-* Fork this repo to offer clients a ready-to-use pipeline.
-
----
-
-## 🏁 Badge Summary
-
-```markdown
-[![Watch on YouTube](https://img.shields.io/badge/Watch-Trailer-red?logo=youtube)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
-```
-
----
-
-## 📚 License & Attribution
-
-This workflow is part of the Cornelius Maxwell creative ecosystem. Built for scalable video editing, poetic storytelling, and GitHub-powered distribution.
-
-© 2026 Cornelius Maxwell. All rights reserved.
-
----
-
-## ⚙️ Git LFS Configuration for Large Video Files
-
-To ensure your large video files like `Unapologetically_Trailer.mp4` are handled efficiently in Git, add the following line to your `.gitattributes` file in the root of your repository:
-
-```
-assets/videos/Unapologetically_Trailer.mp4 filter=lfs diff=lfs merge=lfs -text
-```
-
-This configuration tells Git to use Git Large File Storage (LFS) for this file, which optimizes storage and transfer of large binary files.
-
-Make sure you have Git LFS installed and initialized locally:
-
-```bash
-# Install Git LFS (if not already installed)
-git lfs install
-
-# Track the video file type
-# (This step is optional if you use .gitattributes as above)
-git lfs track "assets/videos/*.mp4"
-
-# Commit the .gitattributes file
-# and push your changes to GitHub
-```
-
-Using Git LFS prevents large files from bloating your Git repository and ensures smooth collaboration and CI/CD workflows.
-
----
-
-## 🛠️ Troubleshooting Upload Errors
-
-If you encounter errors when uploading your video, consider the following common issues and solutions:
-
-1. **Git LFS Setup Issues**
-   - Ensure Git LFS is installed and initialized locally (`git lfs install`).
-   - Verify your `.gitattributes` file includes the correct filter line for your video files (e.g., `assets/videos/Unapologetically_Trailer.mp4 filter=lfs diff=lfs merge=lfs -text`).
-   - Confirm that you added and committed the video file after tracking it with Git LFS.
-   - If you see a small text file instead of the video after downloading from GitHub, Git LFS was not used correctly.
-
-2. **YouTube Format or Codec Issues**
-   - YouTube requires videos to be encoded with H.264 video codec and AAC audio codec.
-   - Re-export your video from Clipchamp ensuring these codecs are selected.
-
-3. **File Size Limits**
-   - GitHub limits files to 100 MB without LFS and 2 GB with LFS.
-   - YouTube supports large files but check your account's upload limits.
-
-4. **Corrupted or Incomplete Files**
-   - Verify the video plays correctly locally before uploading.
-   - Re-export if the file is corrupted or incomplete.
-
-5. **Direct Upload Testing**
-   - To isolate issues, try uploading the original exported video file directly to YouTube Studio without going through GitHub.
-
-If problems persist, review GitHub Actions logs for errors or check YouTube's upload error messages for more details.
-
----
-
-## ⏳ When to Upload and Add Code
-
-You should upload your video file to GitHub first and commit and push those changes. This push triggers the GitHub Action workflow that automatically uploads the video to YouTube.
-
-- Add or update the GitHub Action YAML (`youtube-upload.yml`) and Git LFS configuration (`.gitattributes`) before your first push that includes the video file.
-- Add or update your README or markdown files with the YouTube embed code only after the video is successfully uploaded to YouTube and you have the video ID.
-
-If you encounter upload errors or need to fix Git LFS setup, fix those locally and then push again to GitHub to retry the automated upload.
-
----
+*.mp4 filter=lfs diff=lfs merge=lfs -text
